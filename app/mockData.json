@@ -1,0 +1,4 @@
+[
+  { "id": "1", "checked": true, "description": "my first todo" },
+  { "id": "2", "checked": false, "description": "say hi to mum" }
+]
