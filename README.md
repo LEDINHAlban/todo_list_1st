@@ -1,3 +1,14 @@
+## Prisma
+
+[tutorial](https://dev.to/skipperhoa/how-to-build-a-crud-app-with-nextjs-and-prisma-postgresql-4l79)
+
+```bash
+# update database with new prisma schema
+npx prisma migrate dev
+# edit data
+npx prisma studio
+```
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
