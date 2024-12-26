@@ -2,6 +2,7 @@
 
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
+import { createTodo } from "@/app/lib/actions";
 import prisma from "./lib/prisma";
 
 export default async function Home() {
@@ -19,6 +20,11 @@ export default async function Home() {
               <Input defaultValue={todo.description} />
             </li>
           ))}
+
+          <form action={createTodo}>
+            <Input defaultValue={""} name="description" />
+            <button type="submit">Create Invoice</button>
+          </form>
         </ul>
       </main>
     </>
