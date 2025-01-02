@@ -37,3 +37,23 @@ export async function POST(req: Request) {
     );
   }
 }
+
+export async function DELETE(req: Request) {
+  const { id } = await req.json();
+
+  try {
+    await prisma.todo.delete({
+      where: {
+        id: id,
+      },
+    });
+
+    return NextResponse.json("todo deleted", { status: 200 });
+  } catch (error) {
+    console.error("Error deleting todo:", error);
+    return NextResponse.json(
+      { error: "Failed to delete todo" },
+      { status: 500 }
+    );
+  }
+}

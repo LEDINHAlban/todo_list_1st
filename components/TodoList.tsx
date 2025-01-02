@@ -83,6 +83,26 @@ export default function TodoList({ todos }: TodoListProps) {
     }
   };
 
+  const handleDelete = async (id: number) => {
+    try {
+      const response = await fetch(`/api/todos`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: id,
+        }),
+      });
+
+      if (!response.ok) throw new Error("Failed to create todo");
+
+      setTodoList((prevList) => prevList.filter((todo) => id !== todo.id));
+    } catch (error) {
+      console.log("Error deleting todo", error);
+    }
+  };
+
   return (
     <main className="container">
       {/* creation todo */}
@@ -145,16 +165,24 @@ export default function TodoList({ todos }: TodoListProps) {
                 </span>
               </div>
             )}
-            <button
-              onClick={() =>
-                editingTodoId === todo.id
-                  ? handleSave(todo.id)
-                  : setEditingTodoId(todo.id)
-              }
-              className="bg-blue-500 text-white px-3 py-1 rounded"
-            >
-              {editingTodoId === todo.id ? "Save" : "Edit"}
-            </button>
+            <div>
+              <button
+                onClick={() =>
+                  editingTodoId === todo.id
+                    ? handleSave(todo.id)
+                    : setEditingTodoId(todo.id)
+                }
+                className="bg-blue-500 text-white px-3 py-1 rounded mr-1"
+              >
+                {editingTodoId === todo.id ? "Save" : "Edit"}
+              </button>
+              <button
+                onClick={() => handleDelete(todo.id)}
+                className="bg-red-500 text-white px-3 py-1 rounded"
+              >
+                Delete
+              </button>
+            </div>
           </li>
         ))}
       </ul>
