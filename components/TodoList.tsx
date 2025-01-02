@@ -10,6 +10,7 @@ type TodoListProps = {
 export default function TodoList({ todos }: TodoListProps) {
   const [editingTodoId, setEditingTodoId] = useState<number | null>(null);
   const [todoList, setTodoList] = useState(todos);
+  const [newTodoDescription, setNewTodoDescription] = useState("");
 
   const handleSave = async (id: number) => {
     const todo = todoList.find((t) => t.id === id);
@@ -55,8 +56,53 @@ export default function TodoList({ todos }: TodoListProps) {
     );
   };
 
+  const handleCreateTodo = async () => {
+    if (!newTodoDescription.trim()) return;
+
+    try {
+      const response = await fetch(`/api/todos`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          description: newTodoDescription,
+          checked: false,
+        }),
+      });
+
+      if (!response.ok) throw new Error("Failed to create todo");
+
+      const newTodo = await response.json();
+      console.log("Todo created:", newTodo);
+
+      setTodoList((prevList) => [newTodo, ...prevList]);
+      setNewTodoDescription("");
+    } catch (error) {
+      console.error("Error creating todo:", error);
+    }
+  };
+
   return (
     <main className="container">
+      {/* creation todo */}
+      <div className="flex items-center space-x-2 mb-4">
+        <input
+          type="text"
+          value={newTodoDescription}
+          onChange={(e) => setNewTodoDescription(e.target.value)}
+          placeholder="Enter a new todo"
+          className="border rounded px-2 py-1 w-full"
+        />
+        <button
+          onClick={handleCreateTodo}
+          className="bg-green-500 text-white px-3 py-1 rounded"
+        >
+          Add Todo
+        </button>
+      </div>
+
+      {/* todo list  */}
       <ul className="grid gap-2">
         {todoList.map((todo) => (
           <li

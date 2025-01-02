@@ -19,3 +19,21 @@ export async function PUT(req: Request) {
     );
   }
 }
+
+export async function POST(req: Request) {
+  const { description, checked } = await req.json();
+
+  try {
+    const newTodo = await prisma.todo.create({
+      data: { description, checked },
+    });
+
+    return NextResponse.json(newTodo, { status: 201 });
+  } catch (error) {
+    console.error("Error creating todo:", error);
+    return NextResponse.json(
+      { error: "Failed to create todo" },
+      { status: 500 }
+    );
+  }
+}
