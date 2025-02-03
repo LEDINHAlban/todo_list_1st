@@ -104,81 +104,77 @@ export default function TodoList({ todos }: TodoListProps) {
   };
 
   return (
-    <main className="container">
+    <main className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden mt-8">
+      <div className="px-4 py-2 bg-blue-500">
+        <h1 className="text-white font-bold text-2xl uppercase text-center">
+          To-Do List
+        </h1>
+      </div>
       {/* creation todo */}
-      <div className="flex items-center space-x-2 mb-4">
-        <input
-          type="text"
-          value={newTodoDescription}
-          onChange={(e) => setNewTodoDescription(e.target.value)}
-          placeholder="Enter a new todo"
-          className="border rounded px-2 py-1 w-full"
-        />
-        <button
-          onClick={handleCreateTodo}
-          className="bg-green-500 text-white px-3 py-1 rounded"
-        >
-          Add Todo
-        </button>
+      <div className="w-full max-w-xl mx-auto px-4 py-2">
+        <div className="flex items-center border-b-2 border-teal-500 py-2">
+          <input
+            type="text"
+            value={newTodoDescription}
+            onChange={(e) => setNewTodoDescription(e.target.value)}
+            placeholder="Enter a new todo"
+            className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
+          />
+          <button
+            onClick={handleCreateTodo}
+            className="flex-shrink-0 bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 rounded"
+          >
+            Add
+          </button>
+        </div>
       </div>
 
       {/* todo list  */}
-      <ul className="grid gap-2">
+      <ul className="divide-y divide-gray-200 px-4">
         {todoList.map((todo) => (
-          <li
-            key={todo.id}
-            className="flex items-center justify-between space-x-2 py-5 px-4 bg-gray-100 rounded-md shadow"
-          >
-            {editingTodoId === todo.id ? (
-              <div className="flex items-center space-x-4">
-                <input
-                  type="checkbox"
-                  id={`${todo.id}`}
-                  checked={todo.checked}
-                  onChange={(e) =>
-                    handleCheckboxChange(todo.id, e.target.checked)
-                  }
-                  className="form-checkbox h-5 w-5 text-blue-600"
-                />
+          <li key={todo.id} className="py-4 flex justify-between items-center">
+            <div className="flex items-center w-full">
+              <input
+                type="checkbox"
+                id={`${todo.id}`}
+                checked={todo.checked}
+                onChange={(e) =>
+                  handleCheckboxChange(todo.id, e.target.checked)
+                }
+                className="form-checkbox h-5 w-5 text-blue-600"
+                disabled={editingTodoId !== todo.id}
+              />
+              {editingTodoId === todo.id ? (
                 <input
                   type="text"
                   value={todo.description}
                   onChange={(e) => handleInputChange(todo.id, e.target.value)}
-                  className={`border rounded px-2 py-1`}
+                  className="w-full ml-3 border rounded px-2 py-1 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
-              </div>
-            ) : (
-              <div className="flex items-center space-x-4">
-                <input
-                  type="checkbox"
-                  id={`${todo.id}`}
-                  checked={todo.checked}
-                  disabled
-                  className="form-checkbox h-5 w-5 text-blue-600"
-                />
+              ) : (
                 <span
-                  className={`border rounded px-2 py-1 ${
-                    todo.checked ? "line-through" : ""
+                  className={`ml-3 px-2 py-1 ${
+                    todo.checked ? "line-through text-gray-500" : ""
                   }`}
                 >
                   {todo.description}
                 </span>
-              </div>
-            )}
-            <div>
+              )}
+            </div>
+            <div className="flex">
               <button
                 onClick={() =>
                   editingTodoId === todo.id
                     ? handleSave(todo.id)
                     : setEditingTodoId(todo.id)
                 }
-                className="bg-blue-500 text-white px-3 py-1 rounded mr-1"
+                className="bg-blue-500 text-white px-3 py-1 rounded mr-1 hover:bg-blue-600 transition"
               >
                 {editingTodoId === todo.id ? "Save" : "Edit"}
               </button>
               <button
                 onClick={() => handleDelete(todo.id)}
-                className="bg-red-500 text-white px-3 py-1 rounded"
+                className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition"
               >
                 Delete
               </button>
