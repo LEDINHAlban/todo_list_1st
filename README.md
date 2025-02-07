@@ -1,4 +1,4 @@
-#Project
+# Project
 A modern and efficient task management app developed with Next.js, PostgreSQL, and Prisma, offering a seamless experience for organizing daily tasks.
 
 ## Prisma
